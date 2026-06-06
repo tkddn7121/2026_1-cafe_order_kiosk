@@ -86,10 +86,10 @@ def handle_menu(store: KioskStore, args: list[str]) -> None:
 
                 found = True
 
-            if not found:
-                print("검색 결과가 없습니다")
+    if not found:
+        print("검색 결과가 없습니다")
 
-            return
+    return
         
     print("메뉴:")
     for item in store.list_menu():
