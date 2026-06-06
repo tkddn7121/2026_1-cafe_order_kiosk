@@ -38,7 +38,7 @@ def run_cli() -> int:
         elif command in {"도움말", "help"}:
             print_help()
         elif command in {"메뉴", "menu"}:
-            handle_menu(store)
+            handle_menu(store,args)
         elif command in {"주문", "order"}:
             handle_order(store, state, args)
         elif command in {"주문목록", "orders"}:
@@ -66,7 +66,31 @@ def print_help() -> None:
     print("\t종료")
 
 
-def handle_menu(store: KioskStore) -> None:
+def handle_menu(store: KioskStore, args: list[str]) -> None:
+    if len(args) >= 2 and args[0] == "검색":
+        keyword = args[1]
+
+        print("검색 결과:")
+
+        found = False
+
+        for item in store.list_menu():
+            if keyword.lower() in item.name.lower():
+                description = f" - {item.description}" if item.description else ""
+
+                print(
+                    f"\t{item.id}. {item.name}"
+                    f"({item.category}) - {format_money(item.price)}"
+                    f"{description}"
+                )
+
+                found = True
+
+            if not found:
+                print("검색 결과가 없습니다")
+
+            return
+        
     print("메뉴:")
     for item in store.list_menu():
         description = f" - {item.description}" if item.description else ""
